@@ -1,5 +1,6 @@
 #!/bin/bash
 
+mkdir -p m3u
 rm -f m3u/channels.csv
 touch m3u/channels.csv
 echo '"via","group_title","tvg_id","tvg_logo","name","url"' >> m3u/channels.csv
@@ -31,4 +32,8 @@ do
         url=`echo ${LINE} | grep -oP 'url=(.+)' | sed 's|url=\(.*\)|\1|'`
         echo '"iptv-org.jp_primehome","","'${tvg_id}'","","'${name}'","'${url}'"' >> m3u/channels.csv
 done
+
+mkdir -p json
+rm -f json/channels.json
+npx csvtojson m3u/channels.csv > json/channels.json
 
