@@ -2,7 +2,7 @@
 
 rm -f m3u/channels.csv
 touch m3u/channels.csv
-echo 'via,group-title,tvg_id,tvg_logo,name,url' >> m3u/channels.csv
+echo '"via","group_title","tvg_id","tvg_logo","name","url"' >> m3u/channels.csv
 
 IFS=$'\n'
 
@@ -13,6 +13,22 @@ do
 	tvg_logo=`echo ${LINE} | grep -oP 'tvg-logo=\"(.+)\"' | sed 's|tvg-logo="\(.*\)"|\1|'`
 	name=`echo ${LINE} | grep -oP 'name=(.+) url' | sed 's|name=\(.*\) url|\1|'`
 	url=`echo ${LINE} | grep -oP 'url=(.+)' | sed 's|url=\(.*\)|\1|'`
-	echo 'luongz.jp,'${group_title}','${tvg_id}','${tvg_logo}','${name}','${url} >> m3u/channels.csv
+	echo '"luongz.jp","'${group_title}'","'${tvg_id}'","'${tvg_logo}'","'${name}'","'${url}'"' >> m3u/channels.csv
+done
+
+for LINE in `cat m3u/iptv-org.jp.m3u | sed -z "s|\r\n|\n|g" | sed -z -e  "s|\nhttp| url=http|g" | grep "^#EXTINF" | grep -v "Information"`
+do
+	tvg_id=`echo ${LINE} | grep -oP 'tvg-id=\"([a-zA-z0-9\.\/\-]+)\"' | sed 's|tvg-id="\(.*\)"|\1|'`
+	name=`echo ${LINE} | grep -oP 'name=(.+) url' | sed 's|name=\(.*\) url|\1|'`
+	url=`echo ${LINE} | grep -oP 'url=(.+)' | sed 's|url=\(.*\)|\1|'`
+	echo '"iptv-org.jp","","'${tvg_id}'","","'${name}'","'${url}'"' >> m3u/channels.csv	
+done
+
+for LINE in `cat m3u/iptv-org.jp_primehome.m3u | sed -z "s|\r\n|\n|g" | sed -z -e  "s|\nhttp| url=http|g" | grep "^#EXTINF" | grep -v "Information"`
+do
+        tvg_id=`echo ${LINE} | grep -oP 'tvg-id=\"([a-zA-z0-9\.\/\-]+)\"' | sed 's|tvg-id="\(.*\)"|\1|'`
+        name=`echo ${LINE} | grep -oP 'name=(.+) url' | sed 's|name=\(.*\) url|\1|'`
+        url=`echo ${LINE} | grep -oP 'url=(.+)' | sed 's|url=\(.*\)|\1|'`
+        echo '"iptv-org.jp_primehome","","'${tvg_id}'","","'${name}'","'${url}'"' >> m3u/channels.csv
 done
 
