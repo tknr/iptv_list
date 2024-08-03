@@ -6,7 +6,9 @@ $(function () {
 	}).done(function (data) {
 		const data_json = JSON.parse(JSON.stringify(data));
 		const modified_data = data_json.map(function (datum){
-			datum.link = `<a target="_blank" href="${datum.url}"><img src="${datum.tvg_logo}" width="64" />${datum.tvg_id}</a>`;
+			const img = (datum.tvg_logo) ? `<img src="${datum.tvg_logo}" width="64" />` : '';
+			const title = (datum.name) ? datum.name : datum.tvg_id;
+			datum.link = `<a target="_blank" href="${datum.url}">${img}${title}</a>`;
 			return datum;
 		});
 		console.log(modified_data);
@@ -32,7 +34,7 @@ $(function () {
 					},
 					{
 						data: 'group_title',
-						title: 'group_title',
+						title: 'group',
 						orderable: true
 					},
 					{
