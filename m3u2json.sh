@@ -1,8 +1,8 @@
 #!/bin/bash
 
-rm -f channels.csv
-touch channels.csv
-echo 'via,group-title,tvg_id,tvg_logo,name,url' >> channels.csv
+rm -f m3u/channels.csv
+touch m3u/channels.csv
+echo 'via,group-title,tvg_id,tvg_logo,name,url' >> m3u/channels.csv
 
 IFS=$'\n'
 
@@ -13,6 +13,6 @@ do
 	tvg_logo=`echo ${LINE} | grep -oP 'tvg-logo=\"(.+)\"' | sed 's|tvg-logo="\(.*\)"|\1|'`
 	name=`echo ${LINE} | grep -oP 'name=(.+) url' | sed 's|name=\(.*\) url|\1|'`
 	url=`echo ${LINE} | grep -oP 'url=(.+)' | sed 's|url=\(.*\)|\1|'`
-	echo 'luongz.jp,'${group_title}','${tvg_id}','${tvg_logo}','${name}','${url} >> channels.csv
+	echo 'luongz.jp,'${group_title}','${tvg_id}','${tvg_logo}','${name}','${url} >> m3u/channels.csv
 done
 
