@@ -36,4 +36,5 @@ done
 mkdir -p json
 rm -f json/channels.json
 npx csvtojson m3u/channels.csv > json/channels.json
+npx i18n-csv2json-cli --from m3u/channels.csv --to json --format
 
