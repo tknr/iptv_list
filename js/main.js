@@ -31,6 +31,7 @@ $(function () {
 				lengthChange: true,
 				serverSide: false,
 				scrollX: true,
+				scrollY: true,
 				scrollCollapse: true,
 				deferRender: true,
 				stateSave: false,
@@ -40,12 +41,13 @@ $(function () {
 						data: 'via',
 						title: 'via',
 						orderable: true,
-						visible: true,
+						visible: false,
 					},
 					{
 						data: 'group_title',
 						title: 'group',
-						orderable: true
+						orderable: true,
+						visible: false,
 					},
 					{
 						data: 'tvg_id',
