@@ -3,9 +3,11 @@
   "packageManager": "yarn@4.5.0",
   "type": "module",
   "scripts": {
-    "m3u2json": "node script/m3u2json.js"
+    "iptv2json": "node script/iptv2json.js",
+    "luongz2json": "node script/luongz2json.js"
   },
   "dependencies": {
-    "@pawanpaudel93/m3u-parser": "^1.1.1"
+    "@pawanpaudel93/m3u-parser": "^1.1.1",
+    "superagent": "^10.1.1"
   }
 }
