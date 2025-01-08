@@ -1,9 +1,17 @@
-import fs from 'fs';
-import superagent from "superagent";
+import got from 'got';
+import superagent from 'superagent';
+import { download as _download } from 'wget-improved';
+import { writeFile } from 'fs';
+import { createCommonJS } from 'mlly'
+const { __dirname, __filename, require } = createCommonJS(import.meta.url)
+import sharp from 'sharp'
+
 const response = await superagent.get("https://raw.githubusercontent.com/luongz/iptv-jp/refs/heads/main/jp.m3u");
 const body_array = response.text.split(/\r\n|\r|\n/);
+
 let chArray = [];
 let urlArray = [];
+
 body_array.forEach((line) => {
     // console.log(line);
     if (line.startsWith('#EXTINF:-1 group-title="Information"')) {
@@ -22,11 +30,13 @@ body_array.forEach((line) => {
         let tvgId = line_array_array[2].split("=")[1].replaceAll('"', '');
         let tvgLogo = line_array_array[3].split("=")[1].replaceAll('"', '');
 
+        minifyTvgLogo(tvgLogo, tvgId);
+
         let datum = {
             name: chName,
             groupTitle: groupTitle,
             tvgId: tvgId,
-            tvgLogo: tvgLogo
+            tvgLogo: "image/" + tvgId + ".png",
         };
 
         chArray.push(datum);
@@ -46,4 +56,25 @@ chArray.forEach((datum, index) => {
 })
 
 console.log(chArray);
-fs.writeFile('public/json/jp.json', JSON.stringify(chArray));
+writeFile('public/json/jp.json', JSON.stringify(chArray));
+
+
+function minifyTvgLogo(tvgLogo, tvgId) {
+    console.log(tvgLogo, tvgId);
+
+    const filename_sharpen = "public/image/" + tvgId + ".png";
+    (async () => {
+        const imageBuffer = await got(tvgLogo).buffer();
+
+        // Resize the image using sharp
+        await sharp(imageBuffer)
+            .resize(64, null)
+            .toFile(filename_sharpen, (err, info) => {
+                // console.log(err, info);
+                if (err) {
+                    return tvgLogo;
+                }
+            });
+        return filename_sharpen;
+    })();
+}

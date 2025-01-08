@@ -2,11 +2,7 @@ $(document).ready(function () {
     $.getJSON("json/jp.json", function (data) {
         console.log(data);
         const customData = $.map(data, function (datum, index) {
-/*
-            datum.logo_img = `<img width="64" src="${datum.logo}" />`
-            datum.link = `<a target="_blank" href="${datum.url}"><i class="fa-solid fa-play"></i></a>`
-*/
-            datum.logo_img = `<img width="64" src="${datum.tvgLogo}" />`
+            datum.logo = `<img width="64" src="${datum.tvgLogo}" />`
             datum.link = `<a target="_blank" href="${datum.url}"><i class="fa-solid fa-play"></i></a>`
             return datum;
         });
@@ -34,8 +30,8 @@ $(document).ready(function () {
                     orderable: true,
                 },
                 {
-                    data: 'logo_img',
-                    title: 'logo_img',
+                    data: 'logo',
+                    title: 'logo',
                     orderable: true,
                 },
                 {
