@@ -69,6 +69,12 @@ function minifyTvgLogo(tvgLogo, tvgId) {
         // Resize the image using sharp
         await sharp(imageBuffer)
             .resize(64, null)
+	    .png({
+		pallete: true,
+		effort: 10,
+		quality: 70,
+		compressionLevel: 9
+	    })
             .toFile(filename_sharpen, (err, info) => {
                 // console.log(err, info);
                 if (err) {
