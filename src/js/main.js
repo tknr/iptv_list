@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    $.getJSON("json/jp.json", function (data) {
+    $.getJSON("json/luongz.iptv-jp.json", function (data) {
         console.log(data);
         const customData = $.map(data, function (datum, index) {
             datum.logo = `<img width="64" src="${datum.tvgLogo}" />`

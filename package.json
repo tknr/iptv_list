@@ -3,7 +3,7 @@
   "packageManager": "yarn@4.5.0",
   "type": "module",
   "scripts": {
-    "build":"run-s luongz2json minify",
+    "build": "run-s luongz2json minify",
     "luongz2json": "node script/luongz2json.js",
     "minify": "node script/minify.js"
   },
