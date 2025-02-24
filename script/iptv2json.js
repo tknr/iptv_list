@@ -5,9 +5,17 @@ const timeout = 5
 const parser = new M3uParser({ userAgent, timeout });
 
 (async () => {
-    await parser.parseM3u("https://iptv-org.github.io/iptv/countries/jp.m3u");
-    let data = parser.getStreamsInfo();
-    console.log(data);
-    //    fs.writeFile('public/json/jp.json', JSON.stringify(data));
+        await parser.parseM3u("https://iptv-org.github.io/iptv/countries/jp.m3u");
+        let data = parser.getStreamsInfo();
+        console.log(data);
+        fs.writeFile('public/json/iptv-org.jp.json', JSON.stringify(data), err => {
+                if (err) {
+                        console.log(err.message);
+
+                        throw err;
+                }
+
+                console.log('data written to file');
+        });
 })();
 
