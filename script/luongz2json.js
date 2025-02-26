@@ -17,7 +17,7 @@ body_array.forEach((line) => {
     if (line.startsWith('#EXTINF:-1 group-title="Information"')) {
         return;
     }
-    if (line.startsWith('http://google.com')) {
+    if (line.startsWith('https://google.com')) {
         return;
     }
     if (line.startsWith('#EXTINF')) {
