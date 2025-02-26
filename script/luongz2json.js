@@ -13,17 +13,17 @@ let chArray = [];
 let urlArray = [];
 
 body_array.forEach((line) => {
-	// console.log(line);
-	if (line.startsWith('#EXTINF:-1 group-title="Information"')) {
-		return;
-	}
-	if (line.startsWith('http://google.com')) {
-		return;
-	}
-	if (line.startsWith('#EXTINF')) {
-		console.log(line);
-		let line_array = line.split(',');
-		let chName = line_array[1];
+    // console.log(line);
+    if (line.startsWith('#EXTINF:-1 group-title="Information"')) {
+        return;
+    }
+    if (line.startsWith('https://google.com')) {
+        return;
+    }
+    if (line.startsWith('#EXTINF')) {
+        console.log(line);
+        let line_array = line.split(',');
+        let chName = line_array[1];
 
 		let line_array_array = line_array[0].split(" ");
 		let groupTitle = line_array_array[1].split("=")[1].replaceAll('"', '');
