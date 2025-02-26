@@ -1,8 +1,8 @@
 $(document).ready(function () {
-    $.getJSON("json/luongz.iptv-jp.json", function (data) {
+    $.getJSON("json/iptv-org.jp.json", function (data) {
         console.log(data);
         const customData = $.map(data, function (datum, index) {
-            datum.logo = `<img width="64" src="${datum.tvgLogo}" />`
+            datum.logo = `<img width="64" src="${datum.logo}" />`
             datum.link = `<a target="_blank" href="${datum.url}"><i class="fa-solid fa-play"></i></a>`
             return datum;
         });
@@ -37,6 +37,11 @@ $(document).ready(function () {
                 {
                     data: 'name',
                     title: 'name',
+                    orderable: true,
+                },
+                {   
+                    data: 'category',
+                    title: 'category',
                     orderable: true,
                 },
             ],
