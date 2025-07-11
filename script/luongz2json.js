@@ -20,6 +20,9 @@ body_array.forEach((line) => {
     if (line.startsWith('https://google.com')) {
         return;
     }
+    if (line.startsWith('https://example.com')) {
+        return;
+    }
     if (line.startsWith('#EXTINF')) {
         console.log(line);
         let line_array = line.split(',');
