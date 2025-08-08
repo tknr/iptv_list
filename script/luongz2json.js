@@ -23,6 +23,9 @@ body_array.forEach((line) => {
     if (line.startsWith('https://example.com')) {
         return;
     }
+    if (line.startsWith('https://vn.utako.moe/test/intro.mp4/index.m3u8')) {
+	return;
+    }
     if (line.startsWith('#EXTINF')) {
         console.log(line);
         let line_array = line.split(',');
