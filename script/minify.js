@@ -4,6 +4,7 @@ import tryToCatch from 'try-to-catch';
 
 const map = {
 	"src/js/main.js": "public/js/main.min.js",
+	"src/js/player.js": "public/js/player.min.js",
 };
 
 for (const src in map) {
