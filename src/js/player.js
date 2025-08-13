@@ -3,26 +3,26 @@ $(document).ready(function () {
     let m3u8Url = params.get('m3u8');
     console.log(m3u8Url);
 
-    $.ajax({
-        url: m3u8Url,
-        type: "GET",
-    }).done(function (data, textStatus, jqXHR) {
-        console.log(data, textStatus, jqXHR);
-        let data_array = data.split('\n');
-        let found = data_array.find((element) => element.endsWith('.m3u8'));
-        console.log(found)
-        let url = m3u8Url.replace('index.m3u8','')+ found;
-        console.log(url);
-
-        let player = videojs('vid1');
-        player.src({
-            src: url,
-            type: 'application/x-mpegURL',
-            withCredentials: true
+    // https://github.com/dailymotion/hls.js
+    const $video = $('#video');
+    if (Hls.isSupported()) {
+        var hls = new Hls();
+        hls.loadSource(m3u8Url);
+        hls.attachMedia($video[0]);
+        hls.on(Hls.Events.MANIFEST_PARSED, function () {
+            $video[0].play();
         });
-        player.play();
-    }).fail(function (jqXHR, textStatus, errorThrown) {
-        console.error(jqXHR, textStatus, errorThrown);
-    });
+    }
+    // hls.js is not supported on platforms that do not have Media Source Extensions (MSE) enabled.
+    // When the browser has built-in HLS support (check using `canPlayType`), we can provide an HLS manifest (i.e. .m3u8 URL) directly to the video element throught the `src` property.
+    // This is using the built-in support of the plain video element, without using hls.js.
+    // Note: it would be more normal to wait on the 'canplay' event below however on Safari (where you are most likely to find built-in HLS support) the video.src URL must be on the user-driven
+    // white-list before a 'canplay' event will be emitted; the last video event that can be reliably listened-for when the URL is not on the white-list is 'loadedmetadata'.
+    else if ($video[0].canPlayType('application/vnd.apple.mpegurl')) {
+        $video[0].src = m3u8Url;
+        $video[0].addEventListener('loadedmetadata', function () {
+            $video[0].play();
+        });
+    }
 
 });
