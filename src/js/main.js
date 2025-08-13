@@ -3,8 +3,10 @@ $(document).ready(function () {
         console.log(data);
         const customData = $.map(data, function (datum, index) {
             datum.logo = `<img width="64" src="${datum.tvgLogo}" />`
-            datum.m3u8 = `<a target="_blank" href="${datum.url}"><i class="fa-solid fa-play"></i></a>`
+            datum.m3u8 = `<a target="_blank" href="${datum.url}"><i class="fa-solid fa-link"></i></a>`
             datum.player = `<a target="_blank" href="player.html?m3u8=${datum.url}"><i class="fa-solid fa-tv"></i></a>`
+            const urlencoded = encodeURIComponent(datum.url);
+            datum.vlc = `<a target="_blank" href="vlc-x-callback://x-callback-url/stream?url=${urlencoded}"><i class="fa-solid fa-play"></i></a>`
             return datum;
         });
 
@@ -28,6 +30,11 @@ $(document).ready(function () {
                 {
                     data: 'm3u8',
                     title: 'm3u8',
+                    orderable: false,
+                },
+                {
+                    data: 'vlc',
+                    title: 'vlc',
                     orderable: false,
                 },
                 {
