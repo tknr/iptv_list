@@ -43,6 +43,11 @@ $(document).ready(function () {
                     orderable: false,
                 },
                 {
+                    data: 'groupTitle',
+                    title: 'groupTitle',
+                    orderable: true,
+                },
+                {
                     data: 'logo',
                     title: 'logo',
                     orderable: true,
