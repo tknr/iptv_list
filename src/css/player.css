@@ -1,0 +1,16 @@
+.wrapper {
+  position: relative;
+  width: 100%;
+}
+
+#video {
+  background-attachment: fixed;
+  background-position: center center;
+  background-size: cover;
+  left: 0;
+  min-width: 100%;
+  min-width: 100vw;
+  position: absolute;
+  top: 0;
+  z-index: 1;
+}
