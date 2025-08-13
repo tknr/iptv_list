@@ -3,7 +3,8 @@ $(document).ready(function () {
         console.log(data);
         const customData = $.map(data, function (datum, index) {
             datum.logo = `<img width="64" src="${datum.tvgLogo}" />`
-            datum.link = `<a target="_blank" href="${datum.url}"><i class="fa-solid fa-play"></i></a>`
+            datum.m3u8 = `<a target="_blank" href="${datum.url}"><i class="fa-solid fa-play"></i></a>`
+            datum.player = `<a target="_blank" href="player.html?m3u8=${datum.url}"><i class="fa-solid fa-tv"></i></a>`
             return datum;
         });
 
@@ -25,9 +26,14 @@ $(document).ready(function () {
             data: customData,
             columns: [
                 {
-                    data: 'link',
-                    title: 'link',
-                    orderable: true,
+                    data: 'm3u8',
+                    title: 'm3u8',
+                    orderable: false,
+                },
+                {
+                    data: 'player',
+                    title: 'player',
+                    orderable: false,
                 },
                 {
                     data: 'logo',
