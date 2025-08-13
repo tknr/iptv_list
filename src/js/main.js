@@ -28,9 +28,19 @@ $(document).ready(function () {
             data: customData,
             columns: [
                 {
-                    data: 'm3u8',
-                    title: 'm3u8',
-                    orderable: false,
+                    data: 'logo',
+                    title: 'logo',
+                    orderable: true,
+                },
+                {
+                    data: 'name',
+                    title: 'name',
+                    orderable: true,
+                },
+                {
+                    data: 'groupTitle',
+                    title: 'group',
+                    orderable: true,
                 },
                 {
                     data: 'vlc',
@@ -41,21 +51,6 @@ $(document).ready(function () {
                     data: 'player',
                     title: 'player',
                     orderable: false,
-                },
-                {
-                    data: 'groupTitle',
-                    title: 'groupTitle',
-                    orderable: true,
-                },
-                {
-                    data: 'logo',
-                    title: 'logo',
-                    orderable: true,
-                },
-                {
-                    data: 'name',
-                    title: 'name',
-                    orderable: true,
                 },
             ],
         });
