@@ -17,5 +17,5 @@ video {
 
 video[poster] {
   object-fit: none;
-  width: 50%;
+  width: 100%;
 }
