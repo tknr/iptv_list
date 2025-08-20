@@ -13,31 +13,28 @@ let chArray = [];
 let urlArray = [];
 
 body_array.forEach((line) => {
-    // console.log(line);
-    if (line.startsWith('#EXTINF:-1 group-title="Information"')) {
-        return;
-    }
-    if (line.startsWith('https://google.com')) {
-        return;
-    }
-    if (line.startsWith('https://example.com')) {
-        return;
-    }
-    if (line.startsWith('https://mt01.utako.moe/test/intro.mp4/index.m3u8')) {
-	return;
-    }
-    if (line.startsWith('#EXTINF')) {
-        console.log(line);
-        let line_array = line.split(',');
-        let chName = line_array[1];
+	// console.log(line);
+	if (line.startsWith('#EXTINF:-1 group-title="Information"')) {
+		return;
+	}
+	if (line.startsWith('https://google.com')) {
+		return;
+	}
+	if (line.startsWith('https://example.com')) {
+		return;
+	}
+	if (line.startsWith('https://mt01.utako.moe/test/intro.mp4/index.m3u8')) {
+		return;
+	}
+	if (line.startsWith('#EXTINF')) {
+		console.log('line', line);
+		let line_array = line.split(',');
+		let chName = line_array[1];
 
-		let line_array_array = line_array[0].split(" ");
-		let groupTitle = line_array_array[1].split("=")[1];
-		if(groupTitle) { groupTitle = groupTitle.replaceAll('"', ''); }
-		let tvgId = line_array_array[2].split("=")[1];
-		if(tvgId) { tvgId = tvgId.replaceAll('"', ''); }
-		let tvgLogo = line_array_array[3].split("=")[1];
-		if(tvgLogo) { tvgLogo = tvgLogo.replaceAll('"', ''); }
+		let groupTitle = line_array[0].match(/group-title="([^"]+)"/)[1];
+		let tvgId = line_array[0].match(/tvg-id="([^"]+)"/)[1];
+		let tvgLogo = line_array[0].match(/tvg-logo="([^"]+)"/)[1];
+		console.log('chName', chName, 'groupTitle', groupTitle, 'tvgId', tvgId, 'tvgLogo', tvgLogo);
 
 		minifyTvgLogo(tvgLogo, tvgId);
 
@@ -52,7 +49,7 @@ body_array.forEach((line) => {
 		return;
 	}
 	if (line.startsWith('http')) {
-		console.log(line);
+		console.log('line startswith http', line);
 		urlArray.push(line);
 		return;
 	}
@@ -77,7 +74,7 @@ fs.writeFile('public/json/luongz.iptv-jp.json', JSON.stringify(chArray), err => 
 
 
 function minifyTvgLogo(tvgLogo, tvgId) {
-	console.log(tvgLogo, tvgId);
+	console.log(minifyTvgLogo.name, tvgLogo, tvgId);
 
 	const filename_sharpen = "public/image/" + tvgId + ".png";
 	(async () => {
