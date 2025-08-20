@@ -8,7 +8,7 @@ $(document).ready(function () {
     $.getJSON("json/luongz.iptv-jp.json", function (data) {
         console.log(data);
         $.each(data, function (index, item) {
-            if (index === id) {
+            if (index === (id) - 1) {
                 console.log("Found matching item:", item);
                 $title.html(item.groupTitle + ' : ' + item.name);
                 $video.attr('poster', item.tvgLogo);
