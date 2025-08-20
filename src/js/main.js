@@ -4,7 +4,7 @@ $(document).ready(function () {
         const customData = $.map(data, function (datum, index) {
             datum.logo = `<img width="64" src="${datum.tvgLogo}" />`
             datum.m3u8 = `<a target="_blank" href="${datum.url}"><i class="fa-solid fa-link"></i></a>`
-            datum.player = `<a target="_blank" href="player.html?tvgId=${datum.tvgId}"><i class="fa-solid fa-tv"></i></a>`
+            datum.player = `<a target="_blank" href="player.html?id=${index}"><i class="fa-solid fa-tv"></i></a>`
             const urlencoded = encodeURIComponent(datum.url);
             datum.vlc = `<a target="_blank" href="vlc-x-callback://x-callback-url/stream?url=${urlencoded}"><i class="fa-solid fa-play"></i></a>`
             return datum;

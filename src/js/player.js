@@ -2,13 +2,13 @@ $(document).ready(function () {
     const $video = $('#video');
     const $title = $('title');
     let params = new URLSearchParams(window.location.search);
-    let tvgId = params.get('tvgId');
-    console.log(tvgId);
+    let id = params.get('id');
+    console.log(id);
 
     $.getJSON("json/luongz.iptv-jp.json", function (data) {
         console.log(data);
         $.each(data, function (index, item) {
-            if (item.tvgId === tvgId) {
+            if (index === id) {
                 console.log("Found matching item:", item);
                 $title.html(item.groupTitle + ' : ' + item.name);
                 $video.attr('poster', item.tvgLogo);
