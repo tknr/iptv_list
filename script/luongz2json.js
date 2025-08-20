@@ -32,9 +32,12 @@ body_array.forEach((line) => {
         let chName = line_array[1];
 
 		let line_array_array = line_array[0].split(" ");
-		let groupTitle = line_array_array[1].split("=")[1].replaceAll('"', '');
-		let tvgId = line_array_array[2].split("=")[1].replaceAll('"', '');
-		let tvgLogo = line_array_array[3].split("=")[1].replaceAll('"', '');
+		let groupTitle = line_array_array[1].split("=")[1];
+		if(groupTitle) { groupTitle = groupTitle.replaceAll('"', ''); }
+		let tvgId = line_array_array[2].split("=")[1];
+		if(tvgId) { tvgId = tvgId.replaceAll('"', ''); }
+		let tvgLogo = line_array_array[3].split("=")[1];
+		if(tvgLogo) { tvgLogo = tvgLogo.replaceAll('"', ''); }
 
 		minifyTvgLogo(tvgLogo, tvgId);
 
