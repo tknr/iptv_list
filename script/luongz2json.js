@@ -26,6 +26,9 @@ body_array.forEach((line) => {
 	if (line.startsWith('https://mt01.utako.moe/test/intro.mp4/index.m3u8')) {
 		return;
 	}
+        if (line.startsWith('http://mt01.utako.moe:8001/radio')) {
+                return;
+        }
 	if (line.startsWith('#EXTINF')) {
 		console.log('line', line);
 		let line_array = line.split(',');
