@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    $.getJSON("json/luongz.iptv-jp.json", function (data) {
+  $.getJSON("json/iptv-japan.json", function (data) {
         console.log(data);
         const customData = $.map(data, function (datum, index) {
             const id = index+1;
