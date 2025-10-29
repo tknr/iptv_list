@@ -23,20 +23,18 @@ body_array.forEach((line) => {
 		let chName = line_array[1];
 
 		let groupTitle = line_array[0].match(/group-title="([^"]+)"/)[1];
-		let tvgId = line_array[0].match(/tvg-id="([^"]+)"/)[1];
 		let tvgLogo = line_array[0].match(/tvg-logo="([^"]+)"/)[1];
-		console.log('chName', chName, 'groupTitle', groupTitle, 'tvgId', tvgId, 'tvgLogo', tvgLogo);
 
-		minifyTvgLogo(tvgLogo, tvgId);
-
-		let datum = {
-			name: chName,
-			groupTitle: groupTitle,
-			tvgId: tvgId,
-			tvgLogo: "image/" + tvgId + ".png",
-		};
-
-		chArray.push(datum);
+		let minifyLogo = minifyTvgLogo(tvgLogo).then((minifyLogo)=>{
+			console.log({'minifyLogo':minifyLogo});
+		        let datum = {
+                        	name: chName,
+                        	groupTitle: groupTitle,
+                        	tvgLogo: "image/" +getBaseFileName(tvgLogo),
+                	};
+                	console.log(datum);
+                	chArray.push(datum);
+		});
 		return;
 	}
 	if (line.startsWith('http')) {
@@ -53,21 +51,29 @@ chArray.forEach((datum, index) => {
 })
 
 console.log(chArray);
-fs.writeFile('public/json/luongz.iptv-jp.json', JSON.stringify(chArray), err => {
+fs.writeFile('public/json/iptv-japan.json', JSON.stringify(chArray), err => {
 	if (err) {
-		console.log(err.message);
-
+		console.error(err.message);
 		throw err;
 	}
 
 	console.log('data written to file');
 });
 
+function getBaseFileName(tvgLogo){
+	console.log(getBaseFileName.name, tvgLogo);
+	let baseFilename = tvgLogo.split('/').slice().reverse()[0];
+	return baseFilename;
+}
 
-function minifyTvgLogo(tvgLogo, tvgId) {
-	console.log(minifyTvgLogo.name, tvgLogo, tvgId);
+async function minifyTvgLogo(tvgLogo){
+	console.log(minifyTvgLogo.name, tvgLogo);
 
-	const filename_sharpen = "public/image/" + tvgId + ".png";
+	let baseFileName = getBaseFileName(tvgLogo);
+	console.log({'baseFileName':baseFileName});
+
+	const filename_sharpen = "public/image/" + baseFileName;
+	console.log({'filename_sharpen':filename_sharpen});
 	(async () => {
 		const imageBuffer = await got(tvgLogo).buffer();
 
@@ -81,7 +87,7 @@ function minifyTvgLogo(tvgLogo, tvgId) {
 				compressionLevel: 9
 			})
 			.toFile(filename_sharpen, (err, info) => {
-				// console.log(err, info);
+				// console.error(err, info);
 				if (err) {
 					return tvgLogo;
 				}
