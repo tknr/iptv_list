@@ -5,6 +5,7 @@
   "scripts": {
     "build": "run-s iptv2json minify",
     "iptv2json": "node script/iptv2json.js",
+    "utako2json": "node script/utako2json.js",
     "minify": "node script/minify.js"
   },
   "dependencies": {
