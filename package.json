@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@pawanpaudel93/m3u-parser": "^1.1.1",
-    "got": "^14.6.4",
+    "got": "^14.6.5",
     "minify": "^14.1.0",
     "mlly": "^1.8.0",
     "npm-check-updates": "^19.1.2",
