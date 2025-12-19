@@ -5,7 +5,7 @@ $(document).ready(function () {
   let id = params.get('id');
   console.log(id);
 
-  $.getJSON("json/iptv-japan.json", function (data) {
+  $.getJSON("json/utako.moe.json", function (data) {
     console.log(data);
     $.each(data, function (index, item) {
       if (index === (id) - 1) {

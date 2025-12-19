@@ -3,13 +3,14 @@
   "packageManager": "yarn@4.5.0",
   "type": "module",
   "scripts": {
-    "build": "run-s iptv2json minify",
+    "build": "run-s utako2json minify",
     "iptv2json": "node script/iptv2json.js",
     "utako2json": "node script/utako2json.js",
     "minify": "node script/minify.js"
   },
   "dependencies": {
     "@pawanpaudel93/m3u-parser": "^1.1.1",
+    "axios": "^1.13.2",
     "got": "^14.6.5",
     "minify": "^14.1.0",
     "mlly": "^1.8.0",

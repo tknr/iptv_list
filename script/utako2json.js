@@ -1,14 +1,15 @@
 import got from 'got';
-import superagent from 'superagent';
+import axios from 'axios';
 import { download as _download } from 'wget-improved';
 import fs from 'fs';
 import { createCommonJS } from 'mlly'
 const { __dirname, __filename, require } = createCommonJS(import.meta.url)
-import sharp from 'sharp'
+import sharp from 'sharp';
 
-const response = await superagent.get("https://web.utako.moe/jp.m3u");
-console.log(response.body);
-const body_array = response.text.split(/\r\n|\r|\n/);
+const response = await axios.get('https://web.utako.moe/jp.m3u');
+
+console.log(response);
+const body_array = response.data.split(/\r\n|\r|\n/);
 
 let chArray = [];
 let urlArray = [];
@@ -18,18 +19,9 @@ body_array.forEach((line) => {
 	if (line.startsWith('#EXTINF:-1 group-title="Information"')) {
 		return;
 	}
-	if (line.startsWith('https://google.com')) {
+	if (line.startsWith('http://nl.utako.moe:8000/radio')) {
 		return;
 	}
-	if (line.startsWith('https://example.com')) {
-		return;
-	}
-	if (line.startsWith('https://mt01.utako.moe/test/intro.mp4/index.m3u8')) {
-		return;
-	}
-        if (line.startsWith('http://mt01.utako.moe:8001/radio')) {
-                return;
-        }
 	if (line.startsWith('#EXTINF')) {
 		console.log('line', line);
 		let line_array = line.split(',');
@@ -66,7 +58,7 @@ chArray.forEach((datum, index) => {
 })
 
 console.log(chArray);
-fs.writeFile('public/json/luongz.iptv-jp.json', JSON.stringify(chArray), err => {
+fs.writeFile('public/json/utako.moe.json', JSON.stringify(chArray), err => {
 	if (err) {
 		console.log(err.message);
 
@@ -76,7 +68,6 @@ fs.writeFile('public/json/luongz.iptv-jp.json', JSON.stringify(chArray), err => 
 	console.log('data written to file');
 });
 
-
 function minifyTvgLogo(tvgLogo, tvgId) {
 	console.log(minifyTvgLogo.name, tvgLogo, tvgId);
 
@@ -85,7 +76,7 @@ function minifyTvgLogo(tvgLogo, tvgId) {
 		const imageBuffer = await got(tvgLogo).buffer();
 
 		// Resize the image using sharp
-		await sharp(imageBuffer)
+		sharp(imageBuffer)
 			.resize(64, null)
 			.png({
 				pallete: true,
@@ -101,4 +92,4 @@ function minifyTvgLogo(tvgLogo, tvgId) {
 			});
 		return filename_sharpen;
 	})();
-}
+};
