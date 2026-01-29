@@ -1,6 +1,6 @@
 import fs from 'fs';
 import { minify } from 'minify';
-import tryToCatch from 'try-to-catch';
+import { tryToCatch } from 'try-to-catch';
 
 const map = {
 	"src/js/main.js": "public/js/main.min.js",
