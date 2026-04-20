@@ -68,17 +68,16 @@ fs.writeFile('public/json/utako.moe.json', JSON.stringify(chArray), err => {
 	console.log('data written to file');
 });
 
-function minifyTvgLogo(tvgLogo, tvgId, wait = 1000) {
+function minifyTvgLogo(tvgLogo, tvgId, wait = 2000) {
 	console.log(minifyTvgLogo.name, tvgLogo, tvgId, wait);
-
-    (async () => {
-        console.time('Waited for');
-        await new Promise(resolve => setTimeout(resolve, wait));
-        console.timeLog('Waited for');
-    })();
 
 	const filename_sharpen = "public/image/" + tvgId + ".png";
 	(async () => {
+
+        console.time('Waited for');
+        await new Promise(resolve => setTimeout(resolve, wait));
+        console.timeLog('Waited for');
+
 		const imageBuffer = await got(tvgLogo).buffer();
 
 		// Resize the image using sharp
