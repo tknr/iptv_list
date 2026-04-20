@@ -69,8 +69,13 @@ fs.writeFile('public/json/utako.moe.json', JSON.stringify(chArray), err => {
 });
 
 function minifyTvgLogo(tvgLogo, tvgId, wait = 1000) {
-	console.log(minifyTvgLogo.name, tvgLogo, tvgId);
-    await new Promise(resolve => setTimeout(resolve, wait));
+	console.log(minifyTvgLogo.name, tvgLogo, tvgId, wait);
+
+    (async () => {
+        console.time('Waited for');
+        await new Promise(resolve => setTimeout(resolve, wait));
+        console.timeLog('Waited for');
+    })();
 
 	const filename_sharpen = "public/image/" + tvgId + ".png";
 	(async () => {
