@@ -6,7 +6,7 @@ import { createCommonJS } from 'mlly'
 const { __dirname, __filename, require } = createCommonJS(import.meta.url)
 import sharp from 'sharp';
 
-const response = await axios.get('https://gitflic.ru/project/utako/utako/blob/raw?file=jp.m3u');
+const response = await axios.get('https://raw.githubusercontent.com/take2560/takelab/refs/heads/main/jp.m3u');
 
 console.log(response);
 const body_array = response.data.split(/\r\n|\r|\n/);
