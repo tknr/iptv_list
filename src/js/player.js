@@ -12,7 +12,7 @@ $(document).ready(function () {
         console.log("Found matching item:", item);
         $title.html(item.groupTitle + ' : ' + item.name);
         $video.attr('poster', item.tvgLogo);
-	let url = item.url.replace('http:',location.protocol);
+	let url = item.url.replace('http:',location.protocol).replace('https:',location.protocol);
 	console.log(url);
 	
         // https://github.com/dailymotion/hls.js
