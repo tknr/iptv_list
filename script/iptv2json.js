@@ -6,7 +6,7 @@ import { createCommonJS } from 'mlly'
 const { __dirname, __filename, require } = createCommonJS(import.meta.url)
 import sharp from 'sharp'
 
-const URL = "https://iptv-org.github.io/iptv/languages/jpn.m3u";
+const URL = "https://github.com/Free-TV/IPTV/raw/refs/heads/master/playlists/playlist_japan.m3u8";
 
 axios.get(URL)
 	.then((res) =>{
