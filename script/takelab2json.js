@@ -70,7 +70,7 @@ axios.get(URL)
 		})
 
 		console.log({ 'chArray': chArray });
-		fs.writeFile('public/json/utako.moe.json', JSON.stringify(chArray), err => {
+		fs.writeFile('public/json/takelab.json', JSON.stringify(chArray), err => {
 			if (err) {
 				console.error(err.message);
 				throw err;
