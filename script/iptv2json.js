@@ -21,7 +21,7 @@ axios.get(URL)
 			if (line.startsWith('#EXTM3U')) {
 				return;
 			}
-			if (line.startsWith('#EXTINF')) {
+			else if (line.startsWith('#EXTINF')) {
 				let line_array = line.split(',');
 				let chName = line_array[1];
 
@@ -46,7 +46,7 @@ axios.get(URL)
 				chArray.push(datum);
 				return;
 			}
-			if (line.startsWith('http')) {
+			else {
 				console.log('line startswith http', line);
 				urlArray.push(line);
 				return;
@@ -93,24 +93,28 @@ async function minifyTvgLogo(tvgLogo) {
 	const filename_sharpen = "public/image/" + baseFileName;
 	console.log({ 'filename_sharpen': filename_sharpen });
 	(async () => {
-		const imageBuffer = await got(tvgLogo).buffer();
+		try {
+			const imageBuffer = await got(tvgLogo).buffer();
 
-		// Resize the image using sharp
-		sharp(imageBuffer)
-			.resize(64, null)
-			.png({
-				pallete: true,
-				effort: 10,
-				quality: 70,
-				compressionLevel: 9
-			})
-			.toFile(filename_sharpen, (err, info) => {
-				if (err) {
-					console.error(err);
-				}
-				if (info) {
-					// console.log(info);
-				}
-			});
+			// Resize the image using sharp
+			sharp(imageBuffer)
+				.resize(64, null)
+				.png({
+					pallete: true,
+					effort: 10,
+					quality: 70,
+					compressionLevel: 9
+				})
+				.toFile(filename_sharpen, (err, info) => {
+					if (err) {
+						console.error(err);
+					}
+					if (info) {
+						// console.log(info);
+					}
+				});
+		} catch( error ) {
+			console.error(error);
+		}
 	})();
 }
