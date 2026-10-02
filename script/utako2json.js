@@ -1,100 +1,126 @@
 import got from 'got';
-import axios from 'axios';
-import { download as _download } from 'wget-improved';
+import axios, { isCancel, AxiosError } from "axios";
+//import { download as _download } from 'wget-improved';
 import fs from 'fs';
 import { createCommonJS } from 'mlly'
 const { __dirname, __filename, require } = createCommonJS(import.meta.url)
-import sharp from 'sharp';
+import sharp from 'sharp'
 
-const response = await axios.get('https://raw.githubusercontent.com/take2560/takelab/refs/heads/main/jp.m3u');
+const URL = "https://raw.githubusercontent.com/take2560/takelab/refs/heads/main/jp.m3u";
 
-console.log(response);
-const body_array = response.data.split(/\r\n|\r|\n/);
+axios.get(URL)
+	.then((res) =>{
+		// console.log(res.data);
+		const body_array = res.data.split(/\r\n|\r|\n/);
+		// console.log(body_array);
+		let chArray = [];
+		let urlArray = [];
 
-let chArray = [];
-let urlArray = [];
+		body_array.forEach((line) => {
+			console.log(line);
+			if (line.startsWith('#EXTM3U')) {
+				return;
+			}
+			else if (line.startsWith('#EXTINF')) {
+				let line_array = line.split(',');
+				let chName = line_array[1];
 
-body_array.forEach((line) => {
-	// console.log(line);
-	if (line.startsWith('#EXTINF:-1 group-title="Information"')) {
-		return;
-	}
-	if (line.startsWith('http://nl.utako.moe:8000/radio')) {
-		return;
-	}
-	if (line.startsWith('#EXTINF')) {
-		console.log('line', line);
-		let line_array = line.split(',');
-		let chName = line_array[1];
-
-		let groupTitle = line_array[0].match(/group-title="([^"]+)"/)[1];
-		let tvgId = line_array[0].match(/tvg-id="([^"]+)"/)[1];
-		let tvgLogo = line_array[0].match(/tvg-logo="([^"]+)"/)[1];
-		console.log('chName', chName, 'groupTitle', groupTitle, 'tvgId', tvgId, 'tvgLogo', tvgLogo);
-
-		minifyTvgLogo(tvgLogo, tvgId);
-
-		let datum = {
-			name: chName,
-			groupTitle: groupTitle,
-			tvgId: tvgId,
-			tvgLogo: "image/" + tvgId + ".png",
-		};
-
-		chArray.push(datum);
-		return;
-	}
-	if (line.startsWith('http')) {
-		console.log('line startswith http', line);
-		urlArray.push(line);
-		return;
-	}
-});
-
-chArray.forEach((datum, index) => {
-	let url = urlArray[index];
-	datum.url = url;
-	chArray[index] = datum;
-})
-
-console.log(chArray);
-fs.writeFile('public/json/utako.moe.json', JSON.stringify(chArray), err => {
-	if (err) {
-		console.log(err.message);
-
-		throw err;
-	}
-
-	console.log('data written to file');
-});
-
-function minifyTvgLogo(tvgLogo, tvgId, wait = 2000) {
-	console.log(minifyTvgLogo.name, tvgLogo, tvgId, wait);
-
-	const filename_sharpen = "public/image/" + tvgId + ".png";
-	(async () => {
-
-        console.time('Waited for');
-        await new Promise(resolve => setTimeout(resolve, wait));
-        console.timeLog('Waited for');
-
-		const imageBuffer = await got(tvgLogo).buffer();
-
-		// Resize the image using sharp
-		sharp(imageBuffer)
-			.resize(64, null)
-			.png({
-				pallete: true,
-				effort: 10,
-				quality: 70,
-				compressionLevel: 9
-			})
-			.toFile(filename_sharpen, (err, info) => {
-				// console.log(err, info);
-				if (err) {
-					return tvgLogo;
+				let groupTitle = '';
+				let tvgLogo = '';
+				let tvgLogoUrl = '';
+				try{
+					groupTitle = line_array[0].match(/group-title="([^"]+)"/)[1];
+					tvgLogo = line_array[0].match(/tvg-logo="([^"]+)"/)[1];
+				}catch(e){
+					console.error(e);
 				}
-			});
-		return filename_sharpen;
+				if(tvgLogo.length > 0) {
+					minifyTvgLogo(tvgLogo);
+					tvgLogoUrl = "image/" + getBaseFileName(tvgLogo);
+				}
+				let datum = {
+					name: chName,
+					groupTitle: groupTitle,
+					tvgLogo: tvgLogoUrl,
+				};
+				chArray.push(datum);
+				return;
+			}
+			else if (line.startsWith('#')) {
+                                return;
+                        }
+			else if (line.length < 1) {
+                                return;
+                        }
+			else {
+				console.log('line startswith http', line);
+				urlArray.push(line);
+				return;
+			}
+		});
+
+		console.log({ 'chArray': chArray });
+		console.log({ 'urlArray': urlArray });
+
+		chArray.forEach((datum, index) => {
+			let url = urlArray[index];
+			datum.url = url;
+			console.log({ 'datum': datum });
+			chArray[index] = datum;
+		})
+
+		console.log({ 'chArray': chArray });
+		fs.writeFile('public/json/utako.moe.json', JSON.stringify(chArray), err => {
+			if (err) {
+				console.error(err.message);
+				throw err;
+			}
+
+			console.log('data written to file');
+		});
+	})
+	.catch(err => {
+		console.error(err);
+	});
+
+
+function getBaseFileName(tvgLogo) {
+	console.log(getBaseFileName.name, tvgLogo);
+	let baseFilename = tvgLogo.split('/').slice().reverse()[0];
+	return baseFilename;
+}
+
+async function minifyTvgLogo(tvgLogo) {
+	console.log(minifyTvgLogo.name, tvgLogo);
+
+	let baseFileName = getBaseFileName(tvgLogo);
+	console.log({ 'baseFileName': baseFileName });
+
+	const filename_sharpen = "public/image/" + baseFileName;
+	console.log({ 'filename_sharpen': filename_sharpen });
+	(async () => {
+		try {
+			const imageBuffer = await got(tvgLogo).buffer();
+
+			// Resize the image using sharp
+			sharp(imageBuffer)
+				.resize(64, null)
+				.png({
+					pallete: true,
+					effort: 10,
+					quality: 70,
+					compressionLevel: 9
+				})
+				.toFile(filename_sharpen, (err, info) => {
+					if (err) {
+						console.error(err);
+					}
+					if (info) {
+						// console.log(info);
+					}
+				});
+		} catch( error ) {
+			console.error(error);
+		}
 	})();
-};
+}
