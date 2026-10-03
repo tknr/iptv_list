@@ -1,20 +1,22 @@
 $(document).ready(function () {
+  const JSON_FILE = "json/iptv-japan.json";
+
   const $video = $('#video');
   const $title = $('title');
   let params = new URLSearchParams(window.location.search);
   let id = params.get('id');
   console.log(id);
 
-  $.getJSON("json/iptv-japan.json", function (data) {
+  $.getJSON(JSON_FILE, function (data) {
     console.log(data);
     $.each(data, function (index, item) {
       if (index === (id) - 1) {
         console.log("Found matching item:", item);
         $title.html(item.groupTitle + ' : ' + item.name);
         $video.attr('poster', item.tvgLogo);
-	let url = item.url.replace('http:',location.protocol).replace('https:',location.protocol);
-	console.log(url);
-	
+        let url = item.url.replace('http:', location.protocol).replace('https:', location.protocol);
+        console.log(url);
+
         // https://github.com/dailymotion/hls.js
         if (Hls.isSupported()) {
           var hls = new Hls();
@@ -38,7 +40,4 @@ $(document).ready(function () {
       }
     });
   })
-
-
-
 });

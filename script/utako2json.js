@@ -7,9 +7,10 @@ const { __dirname, __filename, require } = createCommonJS(import.meta.url)
 import sharp from 'sharp'
 
 const URL = "https://gitflic.ru/project/utako/utako/blob/raw?file=jp_clean.m3u&commit=ab1489edf9898c9225d6f0933b2642d327b7d4ab";
+const JSON_FILE = "public/json/utako.json";
 
 axios.get(URL)
-	.then((res) =>{
+	.then((res) => {
 		// console.log(res.data);
 		const body_array = res.data.split(/\r\n|\r|\n/);
 		// console.log(body_array);
@@ -28,13 +29,13 @@ axios.get(URL)
 				let groupTitle = '';
 				let tvgLogo = '';
 				let tvgLogoUrl = '';
-				try{
+				try {
 					groupTitle = line_array[0].match(/group-title="([^"]+)"/)[1];
 					tvgLogo = line_array[0].match(/tvg-logo="([^"]+)"/)[1];
-				}catch(e){
+				} catch (e) {
 					console.error(e);
 				}
-				if(tvgLogo.length > 0) {
+				if (tvgLogo.length > 0) {
 					minifyTvgLogo(tvgLogo);
 					tvgLogoUrl = "image/" + getBaseFileName(tvgLogo);
 				}
@@ -47,11 +48,11 @@ axios.get(URL)
 				return;
 			}
 			else if (line.startsWith('#')) {
-                                return;
-                        }
+				return;
+			}
 			else if (line.length < 1) {
-                                return;
-                        }
+				return;
+			}
 			else {
 				console.log('line startswith http', line);
 				urlArray.push(line);
@@ -70,7 +71,7 @@ axios.get(URL)
 		})
 
 		console.log({ 'chArray': chArray });
-		fs.writeFile('public/json/utako.json', JSON.stringify(chArray), err => {
+		fs.writeFile(JSON_FILE, JSON.stringify(chArray), err => {
 			if (err) {
 				console.error(err.message);
 				throw err;
@@ -119,7 +120,7 @@ async function minifyTvgLogo(tvgLogo) {
 						// console.log(info);
 					}
 				});
-		} catch( error ) {
+		} catch (error) {
 			console.error(error);
 		}
 	})();

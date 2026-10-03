@@ -7,9 +7,10 @@ const { __dirname, __filename, require } = createCommonJS(import.meta.url)
 import sharp from 'sharp'
 
 const URL = "https://github.com/Free-TV/IPTV/raw/refs/heads/master/playlists/playlist_japan.m3u8";
+const JSON_FILE = "public/json/iptv-japan.json";
 
 axios.get(URL)
-	.then((res) =>{
+	.then((res) => {
 		// console.log(res.data);
 		const body_array = res.data.split(/\r\n|\r|\n/);
 		// console.log(body_array);
@@ -28,13 +29,13 @@ axios.get(URL)
 				let groupTitle = '';
 				let tvgLogo = '';
 				let tvgLogoUrl = '';
-				try{
+				try {
 					groupTitle = line_array[0].match(/group-title="([^"]+)"/)[1];
 					tvgLogo = line_array[0].match(/tvg-logo="([^"]+)"/)[1];
-				}catch(e){
+				} catch (e) {
 					console.error(e);
 				}
-				if(tvgLogo.length > 0) {
+				if (tvgLogo.length > 0) {
 					minifyTvgLogo(tvgLogo);
 					tvgLogoUrl = "image/" + getBaseFileName(tvgLogo);
 				}
@@ -64,7 +65,7 @@ axios.get(URL)
 		})
 
 		console.log({ 'chArray': chArray });
-		fs.writeFile('public/json/iptv-japan.json', JSON.stringify(chArray), err => {
+		fs.writeFile(JSON_FILE, JSON.stringify(chArray), err => {
 			if (err) {
 				console.error(err.message);
 				throw err;
@@ -113,7 +114,7 @@ async function minifyTvgLogo(tvgLogo) {
 						// console.log(info);
 					}
 				});
-		} catch( error ) {
+		} catch (error) {
 			console.error(error);
 		}
 	})();

@@ -6,7 +6,6 @@
     "build": "run-s iptv2json minify",
     "minify": "node script/minify.js",
     "iptv2json": "node script/iptv2json.js",
-    "freetv2json": "node script/freetv2json.js",
     "takelab2json": "node script/takelab2json.js",
     "utako2json": "node script/utako2json.js"
   },

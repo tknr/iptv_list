@@ -18,10 +18,8 @@ for (const src in map) {
 		fs.writeFile(dst, data, err => {
 			if (err) {
 				console.log(err.message);
-
 				throw err;
 			}
-
 			console.log('data written to file');
 		});
 	}
