@@ -22,7 +22,7 @@ $(document).ready(function () {
 						xhrSetup: function(xhr, url) {
 							xhr.withCredentials = true; // do send cookies
 							xhr.setRequestHeader("Access-Control-Allow-Headers","Content-Type, Accept, X-Requested-With");
-							xhr.setRequestHeader("Access-Control-Allow-Origin","*");
+							// xhr.setRequestHeader("Access-Control-Allow-Origin","*");
 							xhr.setRequestHeader("Access-Control-Allow-Credentials","true");
 						}
 					}
